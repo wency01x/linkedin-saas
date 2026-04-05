@@ -1,9 +1,10 @@
-import google.generativeai as genai
+from google import genai
 from app.core.config import settings
+from app.services.research import research_trending_topics
 import uuid
 
-genai.configure(api_key=settings.GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-2.5-flash")
+client = genai.Client(api_key=settings.GEMINI_API_KEY)
+
 
 async def generate_linkedin_post(
     topic: str,
@@ -30,7 +31,10 @@ async def generate_linkedin_post(
     Return only the post content, nothing else.
     """
 
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt
+    )
     content = response.text.strip()
 
     return {
