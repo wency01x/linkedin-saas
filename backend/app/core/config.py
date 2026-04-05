@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     RESEND_API_KEY: str
     SECRET_KEY: str
     TAVILY_API_KEY: str
+    CLERK_WEBHOOK_SECRET: str
 
     class Config:
         env_file = ".env"
