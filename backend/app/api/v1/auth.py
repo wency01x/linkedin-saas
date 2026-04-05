@@ -1,0 +1,52 @@
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from app.core.database import get_db
+from app.core.security import verify_clerk_token
+from app.models.user import User
+from app.schemas.user import UserCreate, UserResponse
+
+router = APIRouter()
+
+@router.post("/webhook/clerk", status_code=201)
+async def clerk_webhook(payload: dict, db: Session = Depends(get_db)):
+    event_type = payload.get("type")
+    data = payload.get("data", {})
+
+    if event_type == "user.created":
+        existing_user = db.query(User).filter(
+            User.id == data.get("id")
+        ).first()
+
+        if existing_user:
+            return {"message": "User already exists"}
+
+        email = data.get("email_addresses", [{}])[0].get("email_address")
+
+        new_user = User(
+            id=data.get("id"),
+            email=email,
+            full_name=f"{data.get('first_name', '')} {data.get('last_name', '')}".strip()
+        )
+
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+
+        return {"message": "User created successfully"}
+
+    return {"message": "Event received"}
+
+
+@router.get("/me", response_model=UserResponse)
+async def get_current_user(
+    user_data: dict = Depends(verify_clerk_token),
+    db: Session = Depends(get_db)
+):
+    user = db.query(User).filter(
+        User.id == user_data.get("sub")
+    ).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return user
