@@ -1,0 +1,9 @@
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/linkedin_saas
+REDIS_URL=redis://localhost:6379/0
+GEMINI_API_KEY=your_gemini_api_key_here
+LINKEDIN_CLIENT_ID=your_linkedin_client_id
+LINKEDIN_CLIENT_SECRET=your_linkedin_client_secret
+LINKEDIN_REDIRECT_URI=http://localhost:3000/api/auth/linkedin/callback
+CLERK_SECRET_KEY=your_clerk_secret_key
+RESEND_API_KEY=your_resend_api_key
+SECRET_KEY=anyrandomstringhere123
