@@ -19,11 +19,11 @@ async def verify_clerk_token(
             },
             params={"token": token}
         )
+
     if response.status_code != 200:
         raise HTTPException(
             status_code=401,
             detail="Invalid or expired token"
         )
-    return response.json()
-    
 
+    return response.json()
