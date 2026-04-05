@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     CLERK_SECRET_KEY: str
     RESEND_API_KEY: str
     SECRET_KEY: str
+    TAVILY_API_KEY: str
 
     class Config:
         env_file = ".env"
