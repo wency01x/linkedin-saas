@@ -1,16 +1,37 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request, Header
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.security import verify_clerk_token
+from app.core.config import settings
 from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse
+from svix.webhooks import Webhook
+import json
 
 router = APIRouter()
 
-@router.post("/webhook/clerk", status_code=201)
-async def clerk_webhook(payload: dict, db: Session = Depends(get_db)):
-    event_type = payload.get("type")
-    data = payload.get("data", {})
+@router.post("/webhook/clerk", status_code=200)
+async def clerk_webhook(
+    request: Request,
+    db: Session = Depends(get_db),
+    svix_id: str = Header(None),
+    svix_timestamp: str = Header(None),
+    svix_signature: str = Header(None),
+):
+    payload = await request.body()
+
+    try:
+        wh = Webhook(settings.CLERK_WEBHOOK_SECRET)
+        event = wh.verify(payload, {
+            "svix-id": svix_id,
+            "svix-timestamp": svix_timestamp,
+            "svix-signature": svix_signature,
+        })
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid webhook signature")
+
+    event_type = event.get("type")
+    data = event.get("data", {})
 
     if event_type == "user.created":
         existing_user = db.query(User).filter(
