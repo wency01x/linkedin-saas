@@ -1,22 +1,28 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Inter, Oswald, Space_Grotesk } from "next/font/google"
 import { ClerkProvider } from "@clerk/nextjs"
 import { Toaster } from "@/components/ui/sonner"
+import { Providers } from "@/components/providers"
 import "./globals.css"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 })
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+})
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space",
   subsets: ["latin"],
 })
 
 export const metadata: Metadata = {
-  title: "LinkedIn SaaS",
-  description: "AI-powered LinkedIn content creation",
+  title: "LINKED.AI - LinkedIn Content Creation Platform",
+  description: "The Ultimate LinkedIn Growth Engine",
 }
 
 export default function RootLayout({
@@ -27,9 +33,11 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          {children}
-          <Toaster richColors position="top-right" />
+        <body className={`${inter.variable} ${oswald.variable} ${spaceGrotesk.variable} antialiased font-inter`}>
+          <Providers>
+            {children}
+            <Toaster richColors position="top-right" />
+          </Providers>
         </body>
       </html>
     </ClerkProvider>
