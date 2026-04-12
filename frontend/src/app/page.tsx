@@ -47,12 +47,12 @@ export default function LandingPage() {
           </a>
         </div>
         <div className="flex items-center gap-3 ml-auto">
-          <Link href="/dashboard">
+          <Link href="/sign-in">
             <button className="uppercase hover:text-neutral-900 transition-colors text-xs font-semibold text-neutral-600 tracking-widest px-4 py-2 cursor-pointer">
               Sign In
             </button>
           </Link>
-          <Link href="/dashboard">
+          <Link href="/sign-up">
             <button className="uppercase hover:bg-neutral-800 transition-colors flex text-xs font-semibold text-white tracking-wider bg-neutral-900 rounded-full pt-2 pr-6 pb-2 pl-6 shadow-lg gap-x-2 items-center">
               Get Started
               <Icon icon="solar:arrow-right-linear" className="text-sm" />
@@ -84,7 +84,7 @@ export default function LandingPage() {
                 creators, founders, and agencies.
               </p>
               <div className="flex gap-4">
-              <Link href="/dashboard">
+              <Link href="/sign-up">
                   <button className="px-8 py-4 bg-neutral-900 text-white rounded-lg flex items-center gap-2 uppercase text-sm font-semibold tracking-widest hover:bg-neutral-800 transition-all hover:shadow-xl hover:-translate-y-1">
                     Start Free Trial
                     <Icon icon="solar:arrow-right-linear" className="text-lg" />
