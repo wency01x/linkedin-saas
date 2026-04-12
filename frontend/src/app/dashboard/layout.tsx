@@ -148,7 +148,7 @@ export default function DashboardLayout({
                 </div>
               </div>
               <button
-                onClick={() => signOut(() => {})}
+                onClick={() => signOut(() => router.push("/"))}
                 className="text-neutral-400 hover:text-red-500 transition-colors"
                 title="Log Out"
               >
