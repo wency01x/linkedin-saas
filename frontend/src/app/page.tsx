@@ -19,7 +19,7 @@ export default function LandingPage() {
           </div>
           <div className="flex flex-col">
             <span className="uppercase leading-none text-2xl font-medium tracking-tight font-oswald">
-              LINKED<span className="text-blue-600">.AI</span>
+              NARRAT<span className="text-blue-600">.AI</span>
             </span>
             <span className="text-[0.6rem] uppercase text-neutral-700 tracking-widest font-space">
               Content SaaS
@@ -385,7 +385,7 @@ export default function LandingPage() {
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4 text-white font-oswald text-xl uppercase tracking-tight">
-                LINKED.AI
+                NARRAT.AI
               </div>
               <p className="text-sm max-w-xs leading-relaxed">
                 The AI operating system for modern LinkedIn creators and B2B
