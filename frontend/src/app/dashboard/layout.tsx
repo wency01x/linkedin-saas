@@ -84,7 +84,7 @@ export default function DashboardLayout({
                 <Icon icon="solar:pen-new-square-linear" className="text-lg" />
               </div>
               <span className="font-oswald text-xl tracking-tight uppercase font-medium">
-                LINKED.AI
+                NARRAT.AI
               </span>
             </div>
 
