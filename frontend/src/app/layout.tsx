@@ -21,7 +21,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: "LINKED.AI - LinkedIn Content Creation Platform",
+  title: "NARRAT.AI - LinkedIn Content Creation Platform",
   description: "The Ultimate LinkedIn Growth Engine",
 }
 
