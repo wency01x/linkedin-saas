@@ -51,7 +51,7 @@ export default function OnboardingPage() {
               <Icon icon="solar:hand-stars-linear" className="text-3xl" />
             </div>
             <h2 className="text-3xl font-oswald font-medium mb-3 tracking-tight">
-              Welcome to LINKED.AI
+              Welcome to NARRAT.AI
             </h2>
             <p className="text-neutral-500 mb-8">
               Let&apos;s set up your profile so our AI can write exactly like you do.
