@@ -29,12 +29,12 @@ export default function DashboardLayout({
   const title = titles[pathname] || "Dashboard Overview";
 
   useEffect(() => {
-    if (!isLoading && user && !user.industry) {
+    if (!isLoading && (!user || !user.industry)) {
       router.push("/onboarding");
     }
   }, [user, isLoading, router]);
 
-  if (isLoading || (user && !user.industry)) {
+  if (isLoading || !user || !user.industry) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-white">
         <motion.div
