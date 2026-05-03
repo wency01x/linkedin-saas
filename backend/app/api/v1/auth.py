@@ -58,16 +58,41 @@ async def clerk_webhook(
     return {"message": "Event received"}
 
 
+import httpx
+
+async def sync_user_from_clerk(user_id: str, db: Session):
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            f"https://api.clerk.com/v1/users/{user_id}",
+            headers={"Authorization": f"Bearer {settings.CLERK_SECRET_KEY}"}
+        )
+        if response.status_code == 200:
+            data = response.json()
+            email = data.get("email_addresses", [{}])[0].get("email_address", f"{user_id}@placeholder.com")
+            full_name = f"{data.get('first_name', '')} {data.get('last_name', '')}".strip()
+            
+            new_user = User(
+                id=user_id,
+                email=email,
+                full_name=full_name
+            )
+            db.add(new_user)
+            db.commit()
+            db.refresh(new_user)
+            return new_user
+    return None
+
 @router.get("/me", response_model=UserResponse)
 async def get_current_user(
     user_data: dict = Depends(verify_clerk_token),
     db: Session = Depends(get_db)
 ):
-    user = db.query(User).filter(
-        User.id == user_data.get("sub")
-    ).first()
+    user_id = user_data.get("sub")
+    user = db.query(User).filter(User.id == user_id).first()
 
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        user = await sync_user_from_clerk(user_id, db)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
 
     return user
