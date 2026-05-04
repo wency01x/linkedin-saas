@@ -4,6 +4,13 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 
 export default function LandingPage() {
+  const scrollTo = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
       <main
         id="landing-shell"
@@ -27,24 +34,24 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="hidden md:flex items-center gap-8 mr-auto">
-          <a
-            href="#"
-            className="uppercase hover:text-neutral-900 transition-colors text-xs font-semibold text-neutral-600 tracking-widest"
+          <button
+            onClick={() => scrollTo('features')}
+            className="uppercase hover:text-neutral-900 transition-colors text-xs font-semibold text-neutral-600 tracking-widest cursor-pointer"
           >
             Features
-          </a>
-          <a
-            href="#"
-            className="uppercase hover:text-neutral-900 transition-colors text-xs font-semibold text-neutral-600 tracking-widest"
+          </button>
+          <button
+            onClick={() => scrollTo('how-it-works')}
+            className="uppercase hover:text-neutral-900 transition-colors text-xs font-semibold text-neutral-600 tracking-widest cursor-pointer"
           >
             How It Works
-          </a>
-          <a
-            href="#"
-            className="uppercase hover:text-neutral-900 transition-colors text-xs font-semibold text-neutral-600 tracking-widest"
+          </button>
+          <button
+            onClick={() => scrollTo('pricing')}
+            className="uppercase hover:text-neutral-900 transition-colors text-xs font-semibold text-neutral-600 tracking-widest cursor-pointer"
           >
             Pricing
-          </a>
+          </button>
         </div>
         <div className="flex items-center gap-3 ml-auto">
           <Link href="/sign-in">
@@ -117,7 +124,7 @@ export default function LandingPage() {
         </section>
 
         {/* FEATURES & HOW IT WORKS */}
-        <section className="bg-white border-t border-neutral-200 pt-14 pb-24">
+        <section id="features" className="bg-white border-t border-neutral-200 pt-14 pb-24">
           <div className="md:px-12 max-w-7xl mx-auto pr-6 pl-6">
             <div className="text-center mb-16 max-w-3xl mx-auto">
               <span className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-2 block">
@@ -173,7 +180,7 @@ export default function LandingPage() {
             </div>
 
             {/* 3 Steps */}
-            <div className="md:p-12 overflow-hidden text-white bg-neutral-900 rounded-3xl pt-8 pr-8 pb-8 pl-8 relative">
+            <div id="how-it-works" className="md:p-12 overflow-hidden text-white bg-neutral-900 rounded-3xl pt-8 pr-8 pb-8 pl-8 relative">
               <div className="blur-[6.25rem] bg-blue-500/20 w-96 h-96 rounded-full absolute top-0 right-0"></div>
               <div className="relative z-10 mb-12">
                 <span className="uppercase block text-xs font-semibold text-blue-400 tracking-widest mb-2">
@@ -226,7 +233,7 @@ export default function LandingPage() {
         </section>
 
         {/* PRICING */}
-        <section className="md:px-12 max-w-7xl mx-auto pt-24 pr-6 pb-24 pl-6">
+        <section id="pricing" className="md:px-12 max-w-7xl mx-auto pt-24 pr-6 pb-24 pl-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
             <span className="uppercase block text-xs font-semibold text-neutral-500 tracking-widest mb-2">
               Pricing
@@ -245,7 +252,7 @@ export default function LandingPage() {
                   Creator
                 </h4>
                 <div className="text-4xl font-space font-semibold text-neutral-900 mb-6">
-                  $97<span className="text-lg text-neutral-400 font-normal">/mo</span>
+                  $19<span className="text-lg text-neutral-400 font-normal">/mo</span>
                 </div>
                 <ul className="space-y-4 text-sm text-neutral-600 mb-8">
                   <li className="flex items-center gap-3">
@@ -290,7 +297,7 @@ export default function LandingPage() {
                   Professional
                 </h4>
                 <div className="text-4xl font-space font-semibold text-white mb-6">
-                  $197<span className="text-lg text-neutral-500 font-normal">/mo</span>
+                  $69<span className="text-lg text-neutral-500 font-normal">/mo</span>
                 </div>
                 <ul className="space-y-4 text-sm text-neutral-300 mb-8">
                   <li className="flex items-center gap-3">
@@ -339,7 +346,7 @@ export default function LandingPage() {
                   Enterprise
                 </h4>
                 <div className="text-4xl font-space font-semibold text-neutral-900 mb-6">
-                  $497<span className="text-lg text-neutral-400 font-normal">/mo</span>
+                  $59<span className="text-lg text-neutral-400 font-normal">/mo</span>
                 </div>
                 <ul className="space-y-4 text-sm text-neutral-600 mb-8">
                   <li className="flex items-center gap-3">
