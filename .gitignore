@@ -36,3 +36,7 @@ yarn-error.log*
 
 backend/test.db
 
+
+
+# -- codex # Ignore IDE and editor specific files
+.codex/
