@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Inter, Oswald, Space_Grotesk } from "next/font/google"
+import { Inter, Oswald, Space_Grotesk, JetBrains_Mono } from "next/font/google"
 import { ClerkProvider } from "@clerk/nextjs"
 import { Toaster } from "@/components/ui/sonner"
 import { Providers } from "@/components/providers"
@@ -20,6 +20,13 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
 })
 
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+})
+
+import { TooltipProvider } from "@/components/ui/tooltip"
+
 export const metadata: Metadata = {
   title: "NARRAT.AI - LinkedIn Content Creation Platform",
   description: "The Ultimate LinkedIn Growth Engine",
@@ -32,10 +39,12 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={`${inter.variable} ${oswald.variable} ${spaceGrotesk.variable} antialiased font-inter`}>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${inter.variable} ${oswald.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased font-mono`}>
           <Providers>
-            {children}
+            <TooltipProvider>
+              {children}
+            </TooltipProvider>
             <Toaster richColors position="top-right" />
           </Providers>
         </body>
