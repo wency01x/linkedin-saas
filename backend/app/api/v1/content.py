@@ -29,12 +29,18 @@ async def generate_post(
             detail="Please complete your voice profile first"
         )
 
-    generated = await generate_linkedin_post(
-        topic=payload.topic or f"insights in {user.industry}",
-        industry=user.industry,
-        target_audience=user.target_audience,
-        tone=user.tone
-    )
+    try:
+        generated = await generate_linkedin_post(
+            topic=payload.topic or f"insights in {user.industry}",
+            industry=user.industry,
+            target_audience=user.target_audience,
+            tone=user.tone
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"AI Content Generation failed. Please check your Gemini API Key. Details: {str(e)}"
+        )
 
     new_post = Post(
         id=str(uuid.uuid4()),
@@ -79,12 +85,18 @@ async def generate_bulk_posts(
     posts = []
 
     for topic in topics:
-        generated = await generate_linkedin_post(
-            topic=topic,
-            industry=user.industry,
-            target_audience=user.target_audience,
-            tone=user.tone
-        )
+        try:
+            generated = await generate_linkedin_post(
+                topic=topic,
+                industry=user.industry,
+                target_audience=user.target_audience,
+                tone=user.tone
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"AI Content Generation failed on topic '{topic}'. Please check your Gemini API Key. Details: {str(e)}"
+            )
 
         new_post = Post(
             id=str(uuid.uuid4()),

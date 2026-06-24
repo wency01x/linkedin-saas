@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     TAVILY_API_KEY: str
     CLERK_WEBHOOK_SECRET: str
+    CLERK_JWKS_DOMAIN: str
 
     class Config:
         env_file = ".env"
