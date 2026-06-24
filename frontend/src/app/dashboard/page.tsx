@@ -6,6 +6,8 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 import { usePosts } from "@/hooks/usePosts";
 import { format, parseISO } from "date-fns";
 
+import { Dashboard } from "@/components/dashboard";
+
 export default function DashboardPage() {
   const { summary, isLoadingSummary } = useAnalytics();
   const { posts, isLoading, deletePost } = usePosts();
@@ -43,53 +45,8 @@ export default function DashboardPage() {
 
   return (
     <div className="max-w-[90rem] mx-auto animate-in fade-in zoom-in duration-300 space-y-8">
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white p-5 border border-neutral-200 rounded-xl shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-neutral-500 uppercase tracking-widest">
-              Total Posts
-            </span>
-            <Icon icon="solar:document-text-linear" className="text-neutral-400" />
-          </div>
-          <div className="text-3xl font-space font-semibold text-neutral-900">
-            {isLoadingSummary ? "..." : summary?.total_posts || 0}
-          </div>
-        </div>
-        <div className="bg-white p-5 border border-neutral-200 rounded-xl shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-neutral-500 uppercase tracking-widest">
-              Published
-            </span>
-            <Icon icon="solar:check-circle-linear" className="text-green-500" />
-          </div>
-          <div className="text-3xl font-space font-semibold text-neutral-900">
-            {isLoadingSummary ? "..." : summary?.published_posts || 0}
-          </div>
-        </div>
-        <div className="bg-white p-5 border border-neutral-200 rounded-xl shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-neutral-500 uppercase tracking-widest">
-              Scheduled
-            </span>
-            <Icon icon="solar:calendar-linear" className="text-blue-500" />
-          </div>
-          <div className="text-3xl font-space font-semibold text-neutral-900">
-            {isLoadingSummary ? "..." : summary?.scheduled_posts || 0}
-          </div>
-        </div>
-        <div className="bg-white p-5 border border-neutral-200 rounded-xl shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-neutral-500 uppercase tracking-widest">
-              Drafts
-            </span>
-            <Icon icon="solar:pen-linear" className="text-orange-500" />
-          </div>
-          <div className="text-3xl font-space font-semibold text-neutral-900">
-            {isLoadingSummary ? "..." : summary?.draft_posts || 0}
-          </div>
-        </div>
-      </div>
+      {/* Dashboard-2 Overview */}
+      <Dashboard />
 
       {/* Queue Section */}
       <div className="bg-white border border-neutral-200 rounded-xl shadow-sm overflow-hidden">

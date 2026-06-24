@@ -1,9 +1,11 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { format, parseISO, subDays } from "date-fns";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { DashboardCard } from "@/components/dashboard-card";
+import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 export default function AnalyticsPage() {
   const { summary, postAnalytics, isLoadingSummary, isLoadingPosts } = useAnalytics();
@@ -22,144 +24,181 @@ export default function AnalyticsPage() {
 
   return (
     <div className="max-w-[90rem] mx-auto animate-in fade-in zoom-in duration-300 space-y-8">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-5 border border-neutral-200 rounded-xl shadow-sm">
-          <div className="text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-2">
-            Impressions
-          </div>
-          <div className="flex items-end gap-3">
-            <span className="text-3xl font-space font-semibold text-neutral-900">
+      <div className="grid grid-cols-1 gap-px bg-border p-px md:grid-cols-2 lg:grid-cols-4 rounded-xl overflow-hidden shadow-sm border border-border">
+        <DashboardCard className="bg-background">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
+              Impressions
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex items-end gap-3 pb-6">
+            <span className="text-3xl font-space font-semibold text-foreground">
               {isLoadingSummary ? "..." : (summary?.impressions || 0).toLocaleString()}
             </span>
             <span className="text-xs font-medium text-green-500 flex items-center mb-1">
-              <Icon icon="solar:arrow-right-up-linear" /> 12%
+              <Icon icon="solar:arrow-right-up-linear" className="mr-1" />
+              12%
             </span>
-          </div>
-        </div>
-        <div className="bg-white p-5 border border-neutral-200 rounded-xl shadow-sm">
-          <div className="text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-2">
-            Likes
-          </div>
-          <div className="flex items-end gap-3">
-            <span className="text-3xl font-space font-semibold text-neutral-900">
+          </CardContent>
+        </DashboardCard>
+        
+        <DashboardCard className="bg-background">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
+              Likes
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex items-end gap-3 pb-6">
+            <span className="text-3xl font-space font-semibold text-foreground">
               {isLoadingSummary ? "..." : (summary?.likes || 0).toLocaleString()}
             </span>
             <span className="text-xs font-medium text-green-500 flex items-center mb-1">
-              <Icon icon="solar:arrow-right-up-linear" /> 8%
+              <Icon icon="solar:arrow-right-up-linear" className="mr-1" />
+              8%
             </span>
-          </div>
-        </div>
-        <div className="bg-white p-5 border border-neutral-200 rounded-xl shadow-sm">
-          <div className="text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-2">
-            Comments
-          </div>
-          <div className="flex items-end gap-3">
-            <span className="text-3xl font-space font-semibold text-neutral-900">
+          </CardContent>
+        </DashboardCard>
+
+        <DashboardCard className="bg-background">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
+              Comments
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex items-end gap-3 pb-6">
+            <span className="text-3xl font-space font-semibold text-foreground">
               {isLoadingSummary ? "..." : (summary?.comments || 0).toLocaleString()}
             </span>
             <span className="text-xs font-medium text-red-500 flex items-center mb-1">
-              <Icon icon="solar:arrow-right-down-linear" /> 3%
+              <Icon icon="solar:arrow-right-down-linear" className="mr-1" />
+              3%
             </span>
-          </div>
-        </div>
-        <div className="bg-white p-5 border border-neutral-200 rounded-xl shadow-sm">
-          <div className="text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-2">
-            Reposts
-          </div>
-          <div className="flex items-end gap-3">
-            <span className="text-3xl font-space font-semibold text-neutral-900">
+          </CardContent>
+        </DashboardCard>
+
+        <DashboardCard className="bg-background">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
+              Reposts
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex items-end gap-3 pb-6">
+            <span className="text-3xl font-space font-semibold text-foreground">
               {isLoadingSummary ? "..." : (summary?.reposts || 0).toLocaleString()}
             </span>
             <span className="text-xs font-medium text-green-500 flex items-center mb-1">
-              <Icon icon="solar:arrow-right-up-linear" /> 24%
+              <Icon icon="solar:arrow-right-up-linear" className="mr-1" />
+              24%
             </span>
-          </div>
-        </div>
+          </CardContent>
+        </DashboardCard>
       </div>
 
       {/* Chart */}
-      <div className="bg-white border border-neutral-200 rounded-xl shadow-sm p-6">
-        <h3 className="text-sm font-semibold uppercase tracking-widest text-neutral-900 mb-6">
-          Impressions Over Time (30 Days)
-        </h3>
-        <div className="h-64 w-full relative">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E5E5" />
-              <XAxis 
-                dataKey="date" 
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 10, fill: "#A3A3A3", fontFamily: "Space Grotesk" }}
-                minTickGap={30}
-              />
-              <YAxis 
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 10, fill: "#A3A3A3", fontFamily: "Space Grotesk" }}
-                tickFormatter={(val) => (val > 1000 ? `${(val / 1000).toFixed(1)}k` : val)}
-              />
-              <Tooltip 
-                contentStyle={{ borderRadius: "8px", border: "1px solid #E5E5E5", fontSize: "12px", fontFamily: "Inter" }}
-              />
-              <Line 
-                type="monotone" 
-                dataKey="impressions" 
-                stroke="#2563EB" 
-                strokeWidth={3}
-                dot={false}
-                activeDot={{ r: 6, fill: "#2563EB" }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
+      <DashboardCard className="bg-background border border-border shadow-sm rounded-xl">
+        <CardHeader>
+          <CardTitle className="text-sm font-semibold uppercase tracking-widest text-foreground">
+            Impressions Over Time (30 Days)
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-64 w-full relative">
+            {isLoadingPosts ? (
+              <div className="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground">
+                Loading chart data...
+              </div>
+            ) : chartData.length === 0 ? (
+              <div className="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground">
+                Not enough data to display chart.
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData}>
+                  <defs>
+                    <linearGradient id="colorImpressions" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis
+                    dataKey="date"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fontSize: 12, fill: "#a3a3a3" }}
+                    dy={10}
+                  />
+                  <YAxis
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fontSize: 12, fill: "#a3a3a3" }}
+                    dx={-10}
+                  />
+                  <Tooltip
+                    contentStyle={{ borderRadius: "8px", border: "none", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
+                    cursor={{ stroke: '#d4d4d8', strokeWidth: 1, strokeDasharray: '4 4' }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="impressions"
+                    stroke="#2563eb"
+                    strokeWidth={3}
+                    fillOpacity={1}
+                    fill="url(#colorImpressions)"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            )}
+          </div>
+        </CardContent>
+      </DashboardCard>
 
       {/* Table */}
-      <div className="bg-white border border-neutral-200 rounded-xl shadow-sm overflow-hidden text-sm">
-        <table className="w-full text-left">
-          <thead className="bg-neutral-50 border-b border-neutral-200 text-xs uppercase tracking-widest text-neutral-500 font-semibold">
-            <tr>
-              <th className="px-6 py-4">Post Topic</th>
-              <th className="px-6 py-4">Published</th>
-              <th className="px-6 py-4 text-right">Impressions</th>
-              <th className="px-6 py-4 text-right">Eng. Rate</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-neutral-100">
-            {isLoadingPosts ? (
+      <DashboardCard className="bg-background border border-border shadow-sm rounded-xl overflow-hidden text-sm">
+        <CardContent className="p-0">
+          <table className="w-full text-left">
+            <thead className="bg-muted border-b border-border text-xs uppercase tracking-widest text-muted-foreground font-semibold">
               <tr>
-                <td colSpan={4} className="px-6 py-8 text-center text-neutral-500">
-                  Loading analytics...
-                </td>
+                <th className="px-6 py-4">Post Topic</th>
+                <th className="px-6 py-4">Published</th>
+                <th className="px-6 py-4 text-right">Impressions</th>
+                <th className="px-6 py-4 text-right">Engagement</th>
               </tr>
-            ) : postAnalytics.length === 0 ? (
-              <tr>
-                <td colSpan={4} className="px-6 py-8 text-center text-neutral-500">
-                  No post analytics available yet.
-                </td>
-              </tr>
-            ) : (
-              postAnalytics.map((post) => (
-                <tr key={post.id} className="hover:bg-neutral-50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-neutral-900 truncate max-w-xs">
-                    {post.topic || "Untitled Post"}
-                  </td>
-                  <td className="px-6 py-4 text-neutral-500 font-space text-xs">
-                    {post.published_at ? format(parseISO(post.published_at), "MMM d, yyyy") : "N/A"}
-                  </td>
-                  <td className="px-6 py-4 text-right font-medium">
-                    {post.impressions.toLocaleString()}
-                  </td>
-                  <td className="px-6 py-4 text-right text-green-600 font-medium">
-                    {post.engagement_rate.toFixed(1)}%
+            </thead>
+            <tbody className="divide-y divide-border">
+              {isLoadingPosts ? (
+                <tr>
+                  <td colSpan={4} className="px-6 py-8 text-center text-muted-foreground">
+                    Loading analytics...
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              ) : postAnalytics.length === 0 ? (
+                <tr>
+                  <td colSpan={4} className="px-6 py-8 text-center text-muted-foreground">
+                    No post analytics available yet.
+                  </td>
+                </tr>
+              ) : (
+                postAnalytics.map((post) => (
+                  <tr key={post.id} className="hover:bg-muted/50 transition-colors">
+                    <td className="px-6 py-4 font-medium text-foreground truncate max-w-xs">
+                      {post.topic || "Untitled Post"}
+                    </td>
+                    <td className="px-6 py-4 text-muted-foreground font-space text-xs">
+                      {post.published_at ? format(parseISO(post.published_at), "MMM d, yyyy") : "N/A"}
+                    </td>
+                    <td className="px-6 py-4 text-right font-medium">
+                      {(post.impressions || 0).toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 text-right font-medium">
+                      {post.engagement_rate || 0}%
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </CardContent>
+      </DashboardCard>
     </div>
   );
 }

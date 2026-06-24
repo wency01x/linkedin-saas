@@ -10,19 +10,25 @@ export default function SettingsPage() {
   const { status: linkedinStatus, disconnect, isDisconnecting } = useLinkedIn();
 
   const [editedData, setEditedData] = useState<{
+    full_name?: string;
     industry?: string;
     target_audience?: string;
     tone?: string;
   }>({});
 
   const formData = {
+    full_name: editedData.full_name ?? user?.full_name ?? "",
     industry: editedData.industry ?? user?.industry ?? "",
     target_audience: editedData.target_audience ?? user?.target_audience ?? "",
     tone: editedData.tone ?? user?.tone ?? "Professional & Authoritative",
   };
 
   const handleSaveProfile = async () => {
-    await updateUser(formData);
+    try {
+      await updateUser(formData);
+    } catch {
+      // Error toast is already handled in useUser hook
+    }
   };
 
   const handleDeleteAccount = () => {
@@ -51,6 +57,20 @@ export default function SettingsPage() {
           </p>
         </div>
         <div className="p-6 space-y-4">
+          <div>
+            <label className="block text-xs font-semibold text-neutral-700 uppercase mb-1">
+              Full Name / Creator Name
+            </label>
+            <input
+              type="text"
+              value={formData.full_name}
+              onChange={(e) =>
+                setEditedData({ ...editedData, full_name: e.target.value })
+              }
+              className="w-full p-3 rounded-lg border border-neutral-200 bg-neutral-50 text-sm focus:ring-2 focus:ring-neutral-900 outline-none"
+              placeholder="e.g. Jane Doe"
+            />
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-neutral-700 uppercase mb-1">
