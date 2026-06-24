@@ -5,11 +5,14 @@ import { useAxiosAuth } from "./useAxiosAuth";
 import { toast } from "sonner";
 import { useAppStore, User } from "@/store/useAppStore";
 import { useEffect } from "react";
+import { useAuth } from "@clerk/nextjs";
 
 export const useUser = () => {
   const api = useAxiosAuth();
   const queryClient = useQueryClient();
   const { setUser } = useAppStore();
+
+  const { isLoaded, isSignedIn } = useAuth();
 
   const userQuery = useQuery({
     queryKey: ["user"],
@@ -17,7 +20,8 @@ export const useUser = () => {
       const { data } = await api.get<User>("/auth/me");
       return data;
     },
-    retry: false,
+    enabled: isLoaded && isSignedIn,
+    retry: 2,
   });
 
   // Sync user query with zustand
@@ -60,9 +64,9 @@ export const useUser = () => {
     user: userQuery.data,
     isLoading: userQuery.isLoading,
     error: userQuery.error,
-    updateUser: updateMutation.mutate,
+    updateUser: updateMutation.mutateAsync,
     isUpdating: updateMutation.isPending,
-    deleteUser: deleteMutation.mutate,
+    deleteUser: deleteMutation.mutateAsync,
     isDeleting: deleteMutation.isPending,
   };
 };

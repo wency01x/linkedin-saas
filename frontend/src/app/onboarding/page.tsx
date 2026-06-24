@@ -34,7 +34,7 @@ export default function OnboardingPage() {
   };
 
   return (
-    <main className="fixed inset-0 z-50 bg-neutral-50 flex flex-col items-center justify-center p-6">
+    <main className="min-h-screen bg-neutral-50 flex flex-col items-center justify-center p-4">
       <div className="absolute top-0 left-0 right-0 h-1 bg-neutral-200">
         <div
           id="progress-bar"
