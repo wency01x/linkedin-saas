@@ -121,18 +121,19 @@ export function ChannelSalesChart() {
 				</div>
 			</CardHeader>
 			<CardContent>
-				<ChartContainer
-					className="aspect-auto h-60 w-full p-0 md:h-80"
-					config={chartConfig}
-				>
-					<LineChart
-						accessibilityLayer
-						data={chartRows}
-						margin={{
-							left: 12,
-							right: 12,
-							top: 8,
-						}}
+				<div className="w-full overflow-x-auto pb-2">
+					<ChartContainer
+						className="aspect-auto h-60 min-w-[600px] w-full p-0 md:h-80"
+						config={chartConfig}
+					>
+						<LineChart
+							accessibilityLayer
+							data={chartRows}
+							margin={{
+								left: 24,
+								right: 24,
+								top: 8,
+							}}
 					>
 						<CartesianGrid className="stroke-border" vertical={false} />
 						<XAxis
@@ -177,6 +178,7 @@ export function ChannelSalesChart() {
 						/>
 					</LineChart>
 				</ChartContainer>
+				</div>
 			</CardContent>
 		</DashboardCard>
 	);

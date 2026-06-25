@@ -116,8 +116,8 @@ export default function AnalyticsPage() {
                 <AreaChart data={chartData}>
                   <defs>
                     <linearGradient id="colorImpressions" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#ffffff" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#ffffff" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <XAxis
@@ -140,7 +140,7 @@ export default function AnalyticsPage() {
                   <Area
                     type="monotone"
                     dataKey="impressions"
-                    stroke="#2563eb"
+                    stroke="#ffffff"
                     strokeWidth={3}
                     fillOpacity={1}
                     fill="url(#colorImpressions)"
