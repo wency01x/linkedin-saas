@@ -87,6 +87,20 @@ export const usePosts = () => {
     },
   });
 
+  const scheduleMutation = useMutation({
+    mutationFn: async ({ id, scheduled_at }: { id: string; scheduled_at: string }) => {
+      const response = await api.post<Post>(`/posts/${id}/schedule`, { scheduled_at });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      toast.success("Post scheduled!");
+    },
+    onError: () => {
+      toast.error("Failed to schedule post");
+    },
+  });
+
   return {
     posts: postsQuery.data || [],
     isLoading: postsQuery.isLoading,
@@ -96,5 +110,7 @@ export const usePosts = () => {
     isGeneratingBulk: generateBulkMutation.isPending,
     updatePost: updateMutation.mutate,
     deletePost: deleteMutation.mutate,
+    schedulePost: scheduleMutation.mutateAsync,
+    isScheduling: scheduleMutation.isPending,
   };
 };
