@@ -13,6 +13,10 @@ class UserUpdate(BaseModel):
     industry: Optional[str] = None
     target_audience: Optional[str] = None
     tone: Optional[str] = None
+    formatting_style: Optional[str] = None
+    vocabulary_rules: Optional[str] = None
+    content_pillars: Optional[str] = None
+    example_posts: Optional[str] = None
 
 class UserResponse(BaseModel):
     id: str
@@ -21,6 +25,10 @@ class UserResponse(BaseModel):
     industry: Optional[str] = None
     target_audience: Optional[str] = None
     tone: Optional[str] = None
+    formatting_style: Optional[str] = None
+    vocabulary_rules: Optional[str] = None
+    content_pillars: Optional[str] = None
+    example_posts: Optional[str] = None
     is_active: bool
     created_at: datetime
 
