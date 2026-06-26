@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, DateTime, Boolean
+from sqlalchemy import Column, String, DateTime, Boolean, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.core.database import Base
@@ -12,6 +12,10 @@ class User(Base):
     industry = Column(String, nullable=True)
     target_audience = Column(String, nullable=True)
     tone = Column(String, nullable=True)
+    formatting_style = Column(Text, nullable=True)
+    vocabulary_rules = Column(Text, nullable=True)
+    content_pillars = Column(Text, nullable=True)
+    example_posts = Column(Text, nullable=True)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
