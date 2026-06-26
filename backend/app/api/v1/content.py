@@ -5,8 +5,9 @@ from app.core.security import verify_clerk_token
 from app.models.post import Post, PostStatus
 from app.models.user import User
 from app.schemas.post import PostGenerate, PostResponse
-from app.services.ai_content import generate_linkedin_post
+from app.services.ai_content import generate_linkedin_post, generate_bulk_linkedin_posts
 import uuid
+import asyncio
 
 router = APIRouter()
 
@@ -34,7 +35,10 @@ async def generate_post(
             topic=payload.topic or f"insights in {user.industry}",
             industry=user.industry,
             target_audience=user.target_audience,
-            tone=user.tone
+            tone=user.tone,
+            formatting_style=user.formatting_style,
+            vocabulary_rules=user.vocabulary_rules,
+            example_posts=user.example_posts
         )
     except Exception as e:
         raise HTTPException(
@@ -82,22 +86,26 @@ async def generate_bulk_posts(
         f"advice for {user.target_audience}",
     ]
 
+    try:
+        results = await generate_bulk_linkedin_posts(
+            topics=topics,
+            industry=user.industry,
+            target_audience=user.target_audience,
+            tone=user.tone,
+            formatting_style=user.formatting_style,
+            vocabulary_rules=user.vocabulary_rules,
+            example_posts=user.example_posts
+        )
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=500,
+            detail=f"AI Bulk Content Generation failed. Details: {str(e)}"
+        )
+
     posts = []
-
-    for topic in topics:
-        try:
-            generated = await generate_linkedin_post(
-                topic=topic,
-                industry=user.industry,
-                target_audience=user.target_audience,
-                tone=user.tone
-            )
-        except Exception as e:
-            raise HTTPException(
-                status_code=500,
-                detail=f"AI Content Generation failed on topic '{topic}'. Please check your Gemini API Key. Details: {str(e)}"
-            )
-
+    for generated in results:
         new_post = Post(
             id=str(uuid.uuid4()),
             user_id=user.id,
@@ -105,7 +113,6 @@ async def generate_bulk_posts(
             topic=generated["topic"],
             status=PostStatus.DRAFT
         )
-
         db.add(new_post)
         posts.append(new_post)
 
