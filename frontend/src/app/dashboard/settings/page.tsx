@@ -16,6 +16,10 @@ export default function SettingsPage() {
     industry?: string;
     target_audience?: string;
     tone?: string;
+    formatting_style?: string;
+    vocabulary_rules?: string;
+    content_pillars?: string;
+    example_posts?: string;
   }>({});
 
   const formData = {
@@ -23,6 +27,10 @@ export default function SettingsPage() {
     industry: editedData.industry ?? user?.industry ?? "",
     target_audience: editedData.target_audience ?? user?.target_audience ?? "",
     tone: editedData.tone ?? user?.tone ?? "Professional & Authoritative",
+    formatting_style: editedData.formatting_style ?? user?.formatting_style ?? "",
+    vocabulary_rules: editedData.vocabulary_rules ?? user?.vocabulary_rules ?? "",
+    content_pillars: editedData.content_pillars ?? user?.content_pillars ?? "",
+    example_posts: editedData.example_posts ?? user?.example_posts ?? "",
   };
 
   const handleSaveProfile = async () => {
@@ -101,22 +109,72 @@ export default function SettingsPage() {
               />
             </div>
           </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-muted-foreground uppercase mb-1">
+                Tone
+              </label>
+              <select
+                value={formData.tone}
+                onChange={(e) => setEditedData({ ...editedData, tone: e.target.value })}
+                className="w-full p-3 rounded-lg border border-input bg-muted/50 text-foreground text-sm focus:ring-2 focus:ring-ring outline-none appearance-none"
+              >
+                <option>Professional & Authoritative</option>
+                <option>Casual & Conversational</option>
+                <option>Bold & Direct</option>
+                <option>Educational & Helpful</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-muted-foreground uppercase mb-1">
+                Content Pillars
+              </label>
+              <input
+                type="text"
+                value={formData.content_pillars}
+                onChange={(e) => setEditedData({ ...editedData, content_pillars: e.target.value })}
+                className="w-full p-3 rounded-lg border border-input bg-muted/50 text-foreground text-sm focus:ring-2 focus:ring-ring outline-none"
+                placeholder="e.g. AI, Startups, Mental Health"
+              />
+            </div>
+          </div>
+          <hr className="border-border my-6" />
+          <h4 className="text-sm font-semibold font-oswald tracking-wide uppercase text-foreground mb-4">Advanced Style Guide</h4>
           <div>
             <label className="block text-xs font-semibold text-muted-foreground uppercase mb-1">
-              Tone
+              Formatting & Style Rules
             </label>
-            <select
-              value={formData.tone}
-              onChange={(e) => setEditedData({ ...editedData, tone: e.target.value })}
-              className="w-full p-3 rounded-lg border border-input bg-muted/50 text-foreground text-sm focus:ring-2 focus:ring-ring outline-none appearance-none"
-            >
-              <option>Professional & Authoritative</option>
-              <option>Casual & Conversational</option>
-              <option>Bold & Direct</option>
-              <option>Educational & Helpful</option>
-            </select>
+            <textarea
+              value={formData.formatting_style}
+              onChange={(e) => setEditedData({ ...editedData, formatting_style: e.target.value })}
+              className="w-full p-3 rounded-lg border border-input bg-muted/50 text-foreground text-sm focus:ring-2 focus:ring-ring outline-none min-h-[80px]"
+              placeholder="e.g. Always use bullet points, limit paragraphs to 1 sentence, use emojis sparingly..."
+            />
           </div>
-          <div className="flex justify-end pt-2">
+          <div>
+            <label className="block text-xs font-semibold text-muted-foreground uppercase mb-1">
+              Vocabulary (Do's and Don'ts)
+            </label>
+            <textarea
+              value={formData.vocabulary_rules}
+              onChange={(e) => setEditedData({ ...editedData, vocabulary_rules: e.target.value })}
+              className="w-full p-3 rounded-lg border border-input bg-muted/50 text-foreground text-sm focus:ring-2 focus:ring-ring outline-none min-h-[80px]"
+              placeholder="e.g. Say 'Founders' instead of 'Entrepreneurs'. NEVER use words like 'Synergy' or 'Delve'."
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-muted-foreground uppercase mb-1">
+              Training Data (Example Posts)
+            </label>
+            <p className="text-xs text-muted-foreground mb-2">Paste 1-3 of your best performing past posts so the AI can mimic your exact cadence and rhythm.</p>
+            <textarea
+              value={formData.example_posts}
+              onChange={(e) => setEditedData({ ...editedData, example_posts: e.target.value })}
+              className="w-full p-3 rounded-lg border border-input bg-muted/50 text-foreground text-sm focus:ring-2 focus:ring-ring outline-none min-h-[150px]"
+              placeholder="Paste your past posts here..."
+            />
+          </div>
+          <div className="flex justify-end pt-4">
             <button
               onClick={handleSaveProfile}
               disabled={isUpdating}
